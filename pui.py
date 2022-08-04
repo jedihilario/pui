@@ -28,5 +28,39 @@ class Title:
                 print(self.paddingFill, end='')
             print()
 
-titulo = Title('Hola Mundo!', 'blue')
-titulo.render()
+class optionsMenu:
+    def __init__(self, options, optionsCallbacks, cursorChar = '<', cursorColor = 'blue') -> None:
+        self.options = options.copy()
+        self.optionsCallbacks = optionsCallbacks.copy()
+        self.cursorChar = cursorChar
+        self.cursorColor = cursorColor
+        self.cursorPosition = 0
+
+    def draw(self) -> None:
+        for i in range(len(self.options)):
+            print(self.options[i], end='')
+            if(i == self.cursorPosition):
+                print(f'{colors[self.cursorColor]}{self.cursorChar}{colors["white"]}', end='')
+            print()
+
+    def render(self, components) -> None:
+        wait = True
+        self.draw()
+        while(wait):
+            k = readkey()
+            if(k == key.UP):
+                if(self.cursorPosition > 0):
+                    self.cursorPosition -= 1
+                    os.system('cls')
+                    for i in components: i.render()
+                    self.draw()
+            elif(k == key.DOWN):
+                if(self.cursorPosition < len(self.options) - 1):
+                    self.cursorPosition += 1
+                    os.system('cls')
+                    for i in components: i.render()
+                    self.draw()
+            elif(k == key.ENTER):
+                os.system('cls')
+                self.optionsCallbacks[self.cursorPosition]()
+                wait = False
