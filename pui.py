@@ -28,7 +28,7 @@ class Title:
                 print(self.paddingFill, end='')
             print()
 
-class optionsMenu:
+class OptionsMenu:
     def __init__(self, options, optionsCallbacks, cursorChar = '<', cursorColor = 'blue') -> None:
         self.options = options.copy()
         self.optionsCallbacks = optionsCallbacks.copy()
@@ -44,6 +44,10 @@ class optionsMenu:
             print()
 
     def render(self, components) -> None:
+        '''
+            "components" expects other elements to be re-redered when the options menu refreshes
+            They will be render in the order that are passed in the array
+        '''
         wait = True
         self.draw()
         while(wait):
@@ -62,5 +66,5 @@ class optionsMenu:
                     self.draw()
             elif(k == key.ENTER):
                 os.system('cls')
-                self.optionsCallbacks[self.cursorPosition]()
                 wait = False
+                self.optionsCallbacks[self.cursorPosition](self.options[self.cursorPosition])
